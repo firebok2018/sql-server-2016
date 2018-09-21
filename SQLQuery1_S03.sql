@@ -235,3 +235,7 @@ alter table MTK.Producto
 add constraint CkFevPro check(fevpro >fevpro),
 constraint CKprePro check(prePro >0)
 go
+
+alter table MTk.producto with nocheck
+add constraint CkfecProducto check(fepPro >= getdate())
+go
