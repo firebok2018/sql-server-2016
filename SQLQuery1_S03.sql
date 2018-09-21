@@ -209,3 +209,12 @@ alter table MTK.Empleado
 add constraint FKTiendaEmpleado foreign key (idTienda) references MTK.Tienda on update cascade
 go
 
+create table MTK.TBConductor
+(
+codConductor char(5) not null,
+nomConductor varchar(50) not null,
+apeCond varchar (50) not null,
+brvConductor char(10) not null,
+constraint UQBrevete unique (brvConductor)
+)
+go
