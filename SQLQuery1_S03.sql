@@ -230,3 +230,8 @@ go
 alter table MTK.Postulante
 add constraint DFFecRegistroPos default getdate() for frepos
 go
+
+alter table MTK.Producto
+add constraint CkFevPro check(fevpro >fevpro),
+constraint CKprePro check(prePro >0)
+go
