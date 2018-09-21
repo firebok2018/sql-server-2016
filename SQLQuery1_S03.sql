@@ -218,3 +218,15 @@ brvConductor char(10) not null,
 constraint UQBrevete unique (brvConductor)
 )
 go
+create table MTK.Postulante
+(
+codpos char(5) not null,
+nomPos varchar(50) not null,
+eciPos varchar(30) constraint DFEcivil Default 'Soltero',
+frepos Date
+)
+go
+
+alter table MTK.Postulante
+add constraint DFFecRegistroPos default getdate() for frepos
+go
