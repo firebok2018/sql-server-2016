@@ -142,3 +142,70 @@ alter table RRHH.TBEmpleado
 drop column tlfEmp
 go
 
+----tema semana 04
+
+use BD_Travel
+go
+
+create schema MTK
+go
+
+
+alter schema MTK
+Transfer pais
+
+create table MTK.pais(
+idpais int not null,
+nompais varchar (50) not null,
+constraint PKpais primary key(idpais)
+)
+go
+
+select*from MTK.pais
+
+create table MTK.Tienda(
+idtienda int not null,
+nombreTienda varchar(50) not null,
+dirTienda varchar(60)  not null
+)
+go
+
+select*from MTK.Tienda
+
+alter table MTK.Tienda
+add constraint PKidTienda primary key NOnclustered(idtienda) 
+go
+
+create table MTK.Cliente
+(
+idCliente char(5) not null,
+nomCliente varchar (50) not null,
+idPais int null,
+constraint FKcliente foreign key (idPais) references MTK.pais
+)
+go
+
+create table MTK.Proveedor(
+idProveedor char(5) not null,
+nomProveeder varchar(40) not null,
+idPais int null,
+constraint FKPaisProveedror foreign key (idPais) references MTK.Pais on delete cascade
+)
+go
+
+select*from MTK.Proveedor
+
+create table MTK.Empleado(
+idEmpleado char(5) not null,
+nomEmpleado varchar(50) not null,
+idTienda int null
+)
+
+go
+
+select*from MTK.Empleado
+
+alter table MTK.Empleado
+add constraint FKTiendaEmpleado foreign key (idTienda) references MTK.Tienda on update cascade
+go
+
