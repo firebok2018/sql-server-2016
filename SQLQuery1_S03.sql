@@ -239,3 +239,16 @@ go
 alter table MTk.producto with nocheck
 add constraint CkfecProducto check(fepPro >= getdate())
 go
+
+
+select*from sys.check_constraints
+
+create table MTk.Ticket
+(
+numTicket int identity (1000,1),
+fecxticket  datetime,
+fecvTicket  datetime,
+nomEvento varchar(50),
+valTicket smallmoney
+)
+go
