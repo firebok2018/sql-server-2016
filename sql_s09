@@ -1,0 +1,41 @@
+use Negocios
+go
+
+print 'version '+@@version
+
+print 'lenguaje '+@@language
+--
+print 'servidor '+@@Servername
+--nro de conexeniones permitidas
+print 'conexion'+str(@@max_connections)
+
+
+Declare @v_precio decimal=50
+select*from Compras.productos p where p.PrecioUnidad>@v_precio
+go
+
+declare @mx decimal
+select @mx=max(preciounidad) from Compras.productos
+
+print 'precio mayor '+str(@mx)
+go
+
+declare @mn decimal
+select @mn=min(preciounidad) from Compras.productos
+
+print 'precio menor '+str(@mn)
+go
+
+declare @idemp int , @cantidad int
+set @idemp= 6
+
+select @cantidad=COUNT(*)
+from Ventas.pedidoscabe where IdEmpleado=@idemp
+
+if @cantidad=0
+print 'el empleado no ha relizado algun pedido'
+else  if @cantidad=42
+print 'ha regsitrado 42 pedidos continue trabajando'
+else
+print 'h aregistrado mas de 42 pedidos'
+go
