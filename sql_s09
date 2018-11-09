@@ -39,3 +39,80 @@ print 'ha regsitrado 42 pedidos continue trabajando'
 else
 print 'h aregistrado mas de 42 pedidos'
 go
+use Negocios
+	
+declare @idemp int , @cantidad int
+set @idemp= 5
+
+select @cantidad=COUNT(*)
+from Ventas.pedidoscabe where IdEmpleado=@idemp
+
+if @cantidad=0
+print 'el empleado no ha relizado algun pedido'
+else  if @cantidad=42
+print replicate('continue trabajando....   ',10)
+else
+print 'ha aregistrado mas de 42 pedidos'
+go
+
+begin
+declare @saludo int =1
+declare @txt varchar(max)
+
+set @txt=CASE @saludo
+     WHEN 1 THEN 'Buenos dias'  
+     WHEN 2 THEN 'vas a lograrlo'  
+     WHEN 3 THEN 'eres un ganador'  
+    
+     ELSE 'mensaje no mimplementado'  
+END
+print @txt
+end
+
+begin 
+set dateformat DMY
+declare @fnac date='10/04/90'
+declare @edad smallint
+declare @s varchar(max)
+set @edad=DATEDIFF(YY,@fnac,GETDATE())
+set @s=case
+	when @edad<1 then 'bebe'
+	when @edad<5 then 'infante'
+	when @edad<1 then 'bebe'
+	else 'otro adulto mayor'
+end
+print @s
+end
+
+select IdPedido,fechapedido,destinatario,
+case enviopedido
+when 0 then 'envio pendiente'
+when 1 then 'enviado'
+end as [Estado de envio]
+from Ventas.pedidoscabe 
+go
+
+declare @stock int
+set @stock = 53
+select NomProducto,preciounidad,unidadesenexistencia,'Estado'=(
+case 
+	when unidadesenexistencia>@stock then 'stockeado'
+	when unidadesenexistencia=@stock then 'al limete'
+	when unidadesenexistencia<@stock then 'haga una solicitud'
+
+	end
+)
+from Compras.productos
+go
+
+begin
+set dateformat DMY
+declare @fini date ='01/01/20'
+declare @ffin date ='31/12/21'
+while @fini<=@ffin
+begin 
+print @fini
+set @fini=DATEADD(DD,1,@fini)
+end
+end
+go
