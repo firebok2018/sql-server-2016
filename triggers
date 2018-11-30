@@ -1,0 +1,101 @@
+use Negocios
+go
+select*from sys.triggers
+go
+CREATE TRIGGER reminder1  
+ON ventas.clientes  
+AFTER INSERT, UPDATE   
+AS RAISERROR ('Notify Customer Relations', 16, 10);  
+GO 
+create trigger trcategoria
+on compras.categorias
+for insert,update,delete
+as
+begin
+	print 'ha realizado una transaccion en categoria'
+end
+go
+create trigger trcategoria2
+on compras.categorias
+after insert,update,delete
+as
+begin
+	print 'ha realizado una tr2'
+end
+go
+create trigger trcategoria3
+on compras.categorias
+for insert,update,delete
+as
+begin
+	print 'hasdasd'
+end
+go
+
+select*from Compras.categorias
+insert into Compras.categorias values ('100','sprueba trigers','descripcion')
+set nocount on
+insert into Compras.categorias values ('106','sprueba ','descripcion2')
+go
+
+set nocount on update Compras.categorias set NombreCategoria='Hortalizas'where IdCategoria='105'
+go
+set nocount on delete Compras.categorias where IdCategoria='105'
+go
+
+create trigger trcargo
+on RRHH.cargos after insert,update,delete
+as
+begin
+ select*from inserted
+ select*from deleted
+end
+go
+
+select*from RRHH.Cargos
+insert into RRHH.Cargos values(5,'descargando')
+update RRHH.Cargos set desCargo='sadsadasd' where idcargo=5
+delete RRHH.Cargos where idcargo=5
+
+create trigger trinsertarproducto
+on compras.productos
+for insert
+ as
+	if (select COUNT(*) from inserted join Compras.productos on inserted.NomProducto=productos.NomProducto)>1
+		begin
+			PRINT 'EL NOMBRE YA SE ENCUENTRA REGISTRADO'
+		end
+	ELSE
+		print 'el producto fue insertado en la base de datos'
+go
+
+select*from Compras.productos
+begin try
+	set noCount on
+	insert into Compras.productos values(97,'sirope de regaliz',8,3,'12-bot. 550 ml',81,40,0)
+end try
+begin catch
+	print 'transaccion terminada'
+end catch
+
+--insert into Compras.proveedores values(79,'Te Dharamsala',15,2,'100 kg',10,15,10)
+
+create trigger tractualizaproducto
+on compras.productos
+for update
+as
+	if (select preciounidad from inserted)<=0 or (select unidadesenexistencia from inserted)<=0
+
+	begin 
+		print 'el precio en unidades en existencia deben ser mayor a cero'
+		rollback transaction
+	end
+go
+
+begin try
+	set noCount on
+	update Compras.productos set UnidadesEnExistencia=0 where IdProducto=1 
+end try
+begin catch
+	print 'transaccion completada'
+end catch
